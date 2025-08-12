@@ -50,7 +50,7 @@ async fn create_browser_client() -> Result<fantoccini::Client, fantoccini::error
 
     let client = ClientBuilder::native()
         .capabilities(caps)
-        .connect("http://localhost:4444")
+        .connect("https://6b0d7d39db91.ngrok-free.app/")
         .await
         .expect("Failed to connect to WebDriver");
 
