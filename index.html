@@ -537,7 +537,7 @@
     let currentOffset = 0;
     let itemsPerPage = 20;
     let totalItems = 0;
-    let baseUrl = "{{base_url}}";
+    let baseUrl = "https://rys.onrender.com";
 
     // Start auto-refresh immediately
     startAutoRefresh();
@@ -647,7 +647,7 @@
             : "";
 
           return `
-            <div class="result-card ${currentViewMode}-view" onclick="openLink('${item.url}')" data-url="${item.url}" data-title="${title.toLowerCase()}">
+            <div class="result-card ${currentViewMode}-view" onclick="openLink('${item.sourcesHtml}')" data-url="${item.url}" data-title="${title.toLowerCase()}">
               <div class="card-thumbnail">
                 ${thumbnailHtml}
                 <div class="thumbnail-placeholder" style="${item.thumbnail ? "display: none;" : ""}">
