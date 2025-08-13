@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚀 Enhanced Scraper Results Viewer</title>
+  <title>Enhanced Scraper Results Viewer</title>
   <style>
     * {
       margin: 0;
@@ -20,28 +20,26 @@
     }
 
     .container {
-      max-width: 1600px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 20px;
     }
 
     .header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
       text-align: center;
+      margin-bottom: 30px;
+      color: white;
     }
 
     .header h1 {
-      font-size: 2.5em;
+      font-size: 2.5rem;
       margin-bottom: 10px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
     }
 
     .stats-grid {
@@ -53,26 +51,23 @@
 
     .stat-card {
       background: rgba(255, 255, 255, 0.95);
-      padding: 25px;
+      padding: 20px;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .stat-number {
-      font-size: 2.5em;
+      font-size: 2rem;
       font-weight: bold;
       color: #667eea;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     .stat-label {
-      font-size: 0.9em;
+      font-size: 0.9rem;
       color: #666;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -83,69 +78,123 @@
       padding: 20px;
       border-radius: 15px;
       margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background: #f0f0f0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      width: 0%;
-      transition: width 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
     .filters {
       display: flex;
       gap: 15px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 15px;
     }
 
     .filter-input {
       padding: 10px 15px;
-      border: 2px solid #ddd;
-      border-radius: 25px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
       font-size: 14px;
-      flex: 1;
       min-width: 200px;
+      transition: border-color 0.3s;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: #667eea;
     }
 
     .filter-button {
       padding: 10px 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: #667eea;
       color: white;
       border: none;
-      border-radius: 25px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s ease;
+      font-weight: 500;
+      transition: background 0.3s;
     }
 
     .filter-button:hover {
-      transform: scale(1.05);
+      background: #5a6fd8;
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .pagination-info {
+      font-size: 14px;
+      color: #666;
+      white-space: nowrap;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .pagination-btn {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background: #f0f0f0;
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pagination-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .view-mode-toggle {
+      display: flex;
+      background: #f5f5f5;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .view-mode-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .view-mode-btn.active {
+      background: #667eea;
+      color: white;
     }
 
     .auto-refresh {
       display: flex;
       align-items: center;
       gap: 10px;
+      font-size: 14px;
     }
 
     .toggle-switch {
-      position: relative;
       width: 50px;
       height: 25px;
       background: #ccc;
       border-radius: 25px;
+      position: relative;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -157,12 +206,12 @@
     .toggle-switch::after {
       content: "";
       position: absolute;
-      top: 2px;
-      left: 2px;
       width: 21px;
       height: 21px;
-      background: white;
       border-radius: 50%;
+      background: white;
+      top: 2px;
+      left: 2px;
       transition: transform 0.3s;
     }
 
@@ -171,11 +220,11 @@
     }
 
     .status-indicator {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      margin-right: 8px;
+      display: inline-block;
+      margin-right: 5px;
     }
 
     .status-in-progress {
@@ -184,152 +233,7 @@
     }
 
     .status-completed {
-      background: #28a745;
-    }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 25px;
-    }
-
-    .result-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .result-card:hover {
-      transform: translateY(-10px) scale(1.02);
-    }
-
-    .card-thumbnail {
-      position: relative;
-      height: 200px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-    }
-
-    .thumbnail-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .result-card:hover .thumbnail-image {
-      transform: scale(1.1);
-    }
-
-    .thumbnail-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: white;
-      font-size: 3em;
-      opacity: 0.7;
-    }
-
-    .card-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to bottom,
-          rgba(0, 0, 0, 0.7) 0%,
-          transparent 50%);
-      color: white;
-      padding: 15px;
-    }
-
-    .card-index {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 12px;
-    }
-
-    .card-sources-count {
-      position: absolute;
-      bottom: 10px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 12px;
-      backdrop-filter: blur(10px);
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .card-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 1.1em;
-      color: #333;
-      line-height: 1.4;
-      max-height: 2.8em;
-      overflow: hidden;
-    }
-
-    .card-url {
-      font-size: 0.85em;
-      color: #666;
-      word-break: break-all;
-      margin-bottom: 10px;
-    }
-
-    .sources-list {
-      margin-top: 10px;
-    }
-
-    .source-item {
-      background: #f8f9ff;
-      padding: 8px;
-      margin: 5px 0;
-      border-radius: 6px;
-      border-left: 4px solid #667eea;
-      word-break: break-all;
-      font-size: 0.8em;
-    }
-
-    .no-sources {
-      color: #999;
-      font-style: italic;
-      text-align: center;
-      padding: 15px;
-    }
-
-    .timestamp {
-      color: #666;
-      font-size: 0.8em;
-      margin-top: 10px;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 50px;
-      color: #666;
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #667eea;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+      background: #4caf50;
     }
 
     @keyframes pulse {
@@ -346,6 +250,163 @@
       }
     }
 
+    .results-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .results-grid.grid-view {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    .results-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .result-card.list-view {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .result-card.list-view .card-thumbnail {
+      width: 200px;
+      flex-shrink: 0;
+    }
+
+    .card-thumbnail {
+      position: relative;
+      height: 200px;
+      background: #f5f5f5;
+      overflow: hidden;
+    }
+
+    .thumbnail-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbnail-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #999;
+      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+    }
+
+    .card-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .card-sources-count {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(103, 126, 234, 0.9);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .external-link-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #333;
+      line-height: 1.3;
+    }
+
+    .card-url {
+      color: #667eea;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      word-break: break-all;
+    }
+
+    .sources-list {
+      margin-bottom: 10px;
+    }
+
+    .source-item {
+      background: #f8f9fa;
+      padding: 4px 8px;
+      margin: 4px 0;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #666;
+      word-break: break-all;
+    }
+
+    .no-sources {
+      color: #999;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .timestamp {
+      font-size: 0.8rem;
+      color: #999;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px 20px;
+      color: white;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -356,65 +417,34 @@
       }
     }
 
-    .external-link-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2em;
-      color: white;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 15px;
-      border-radius: 50%;
-      backdrop-filter: blur(10px);
-    }
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-    .result-card:hover .external-link-icon {
-      opacity: 1;
-    }
+      .filter-input {
+        min-width: auto;
+        width: 100%;
+      }
 
-    .view-mode-toggle {
-      margin-left: auto;
-      display: flex;
-      gap: 10px;
-    }
+      .pagination-controls {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+      }
 
-    .view-mode-btn {
-      padding: 8px 15px;
-      border: 2px solid #667eea;
-      background: transparent;
-      color: #667eea;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: all 0.3s ease;
-    }
+      .results-grid.grid-view {
+        grid-template-columns: 1fr;
+      }
 
-    .view-mode-btn.active {
-      background: #667eea;
-      color: white;
-    }
+      .result-card.list-view {
+        flex-direction: column;
+      }
 
-    .results-grid.list-view {
-      grid-template-columns: 1fr;
-    }
-
-    .result-card.list-view {
-      display: flex;
-      height: 120px;
-    }
-
-    .result-card.list-view .card-thumbnail {
-      width: 200px;
-      height: 120px;
-      flex-shrink: 0;
-    }
-
-    .result-card.list-view .card-body {
-      flex: 1;
-      padding: 15px;
+      .result-card.list-view .card-thumbnail {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -436,8 +466,8 @@
         <div class="stat-label">Pages Processed</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" id="cpuCores">0</div>
-        <div class="stat-label">CPU Cores Used</div>
+        <div class="stat-number" id="currentPage">1</div>
+        <div class="stat-label">Current Page</div>
       </div>
       <div class="stat-card">
         <div class="stat-number" id="avgSources">0</div>
@@ -446,15 +476,9 @@
     </div>
 
     <div class="controls">
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-
       <div class="filters">
         <input type="text" class="filter-input" id="titleFilter" placeholder="🔍 Filter by title..." />
         <input type="text" class="filter-input" id="urlFilter" placeholder="🔗 Filter by URL..." />
-        <input type="number" class="filter-input" id="pageFilter" placeholder="📄 Page number..."
-          style="max-width: 150px" />
         <input type="number" class="filter-input" id="minSources" placeholder="Min sources" style="max-width: 120px" />
         <button class="filter-button" onclick="applyFilters()">
           Apply Filters
@@ -468,6 +492,20 @@
           <button class="view-mode-btn" onclick="setViewMode('list')">
             List
           </button>
+        </div>
+
+        <div class="pagination-controls">
+          <div class="pagination-info" id="paginationInfo">
+            Showing 0-0 of 0 items
+          </div>
+          <div class="pagination-buttons">
+            <button class="pagination-btn" id="prevBtn" onclick="previousPage()">
+              ‹ Prev
+            </button>
+            <button class="pagination-btn" id="nextBtn" onclick="nextPage()">
+              Next ›
+            </button>
+          </div>
         </div>
       </div>
 
@@ -496,13 +534,18 @@
     let autoRefreshInterval = null;
     let isAutoRefresh = true;
     let currentViewMode = "grid";
+    let currentOffset = 0;
+    let itemsPerPage = 20;
+    let totalItems = 0;
+    let baseUrl = "{{base_url}}";
 
     // Start auto-refresh immediately
     startAutoRefresh();
 
     async function loadDataFromAPI() {
       try {
-        const response = await fetch("/api/data");
+        const url = `${baseUrl}/api/get?offset=${currentOffset}&limit=${itemsPerPage}`;
+        const response = await fetch(url);
         const jsonData = await response.json();
         loadData(jsonData);
       } catch (error) {
@@ -512,23 +555,28 @@
     }
 
     function loadData(jsonData) {
-      allData = jsonData.data || [];
+      allData = jsonData.items || [];
       filteredData = [...allData];
+      totalItems = jsonData.database_stats?.total_items || 0;
 
       updateStats(jsonData);
       displayResults(filteredData);
-      updateScrapingStatus(jsonData.scraping_info?.status || "unknown");
+      updatePaginationInfo();
+      updateScrapingStatus(
+        jsonData.database_stats?.database_status || "unknown",
+      );
     }
 
     function updateStats(jsonData) {
-      const info = jsonData.scraping_info || {};
+      const stats = jsonData.database_stats || {};
+      const queryParams = jsonData.query_params || {};
 
       document.getElementById("totalItems").textContent =
-        info.total_items_found || info.items_found_so_far || allData.length;
+        stats.total_items || 0;
       document.getElementById("totalPages").textContent =
-        info.total_pages_processed || info.pages_processed_so_far || 0;
-      document.getElementById("cpuCores").textContent =
-        info.cpu_cores_used || 0;
+        stats.total_pages || 0;
+      document.getElementById("currentPage").textContent =
+        Math.floor(currentOffset / itemsPerPage) + 1;
 
       // Calculate average sources
       const totalSources = allData.reduce(
@@ -538,15 +586,18 @@
       const avgSources =
         allData.length > 0 ? (totalSources / allData.length).toFixed(1) : 0;
       document.getElementById("avgSources").textContent = avgSources;
+    }
 
-      // Update progress bar
-      const progress =
-        info.status === "completed"
-          ? 100
-          : info.status === "in_progress"
-            ? Math.min(95, (info.pages_processed_so_far || 0) * 10)
-            : 0;
-      document.getElementById("progressFill").style.width = progress + "%";
+    function updatePaginationInfo() {
+      const start = currentOffset + 1;
+      const end = Math.min(currentOffset + itemsPerPage, totalItems);
+      const info = `Showing ${start}-${end} of ${totalItems} items`;
+      document.getElementById("paginationInfo").textContent = info;
+
+      // Update pagination buttons
+      document.getElementById("prevBtn").disabled = currentOffset <= 0;
+      document.getElementById("nextBtn").disabled =
+        currentOffset + itemsPerPage >= totalItems;
     }
 
     function updateScrapingStatus(status) {
@@ -555,18 +606,12 @@
         "#statusIndicator .status-indicator",
       );
 
-      if (status === "in_progress") {
-        statusElement.textContent = "Scraping in progress...";
-        indicatorElement.className = "status-indicator status-in-progress";
-      } else if (status === "completed") {
-        statusElement.textContent = "Scraping completed!";
+      if (status === "connected") {
+        statusElement.textContent = "Database connected";
         indicatorElement.className = "status-indicator status-completed";
-      } else if (status === "initializing") {
-        statusElement.textContent = "Initializing scraper...";
-        indicatorElement.className = "status-indicator status-in-progress";
       } else {
-        statusElement.textContent = "Status unknown";
-        indicatorElement.className = "status-indicator status-completed";
+        statusElement.textContent = "Status: " + status;
+        indicatorElement.className = "status-indicator status-in-progress";
       }
     }
 
@@ -576,7 +621,7 @@
       if (data.length === 0) {
         container.innerHTML = `
           <div class="loading">
-            <p>No results found. Scraping may still be in progress...</p>
+            <p>No results found on this page...</p>
           </div>
         `;
         return;
@@ -632,6 +677,20 @@
       container.innerHTML = `<div class="results-grid ${currentViewMode}-view">${html}</div>`;
     }
 
+    function nextPage() {
+      if (currentOffset + itemsPerPage < totalItems) {
+        currentOffset += itemsPerPage;
+        loadDataFromAPI();
+      }
+    }
+
+    function previousPage() {
+      if (currentOffset > 0) {
+        currentOffset = Math.max(0, currentOffset - itemsPerPage);
+        loadDataFromAPI();
+      }
+    }
+
     function openLink(url) {
       window.open(url, "_blank");
     }
@@ -643,7 +702,6 @@
       const urlFilter = document
         .getElementById("urlFilter")
         .value.toLowerCase();
-      const pageFilter = document.getElementById("pageFilter").value;
       const minSources = document.getElementById("minSources").value;
 
       filteredData = allData.filter((item) => {
@@ -654,7 +712,6 @@
           return false;
         if (urlFilter && !item.url.toLowerCase().includes(urlFilter))
           return false;
-        if (pageFilter && item.page != pageFilter) return false;
         if (minSources && (item.sources?.length || 0) < parseInt(minSources))
           return false;
         return true;
@@ -666,7 +723,6 @@
     function clearFilters() {
       document.getElementById("titleFilter").value = "";
       document.getElementById("urlFilter").value = "";
-      document.getElementById("pageFilter").value = "";
       document.getElementById("minSources").value = "";
       filteredData = [...allData];
       displayResults(filteredData);
@@ -708,7 +764,7 @@
       // Set up interval for continuous updates
       autoRefreshInterval = setInterval(() => {
         loadDataFromAPI();
-      }, 2000); // Refresh every 2 seconds
+      }, 5000); // Refresh every 5 seconds
     }
 
     function stopAutoRefresh() {
@@ -737,6 +793,15 @@
           e.preventDefault();
           document.getElementById("titleFilter").focus();
         }
+      }
+      // Page navigation shortcuts
+      if (e.key === "ArrowLeft" && e.altKey) {
+        e.preventDefault();
+        previousPage();
+      }
+      if (e.key === "ArrowRight" && e.altKey) {
+        e.preventDefault();
+        nextPage();
       }
     });
 
